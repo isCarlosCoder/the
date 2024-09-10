@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>ThauanyHeloisa - Blog</title>
+  <style>
+    .menu-overlay {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-purple-600 text-white">
+    <div class="max-w-7xl mx-auto p-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold">ThauanyHeloisa Blog</h1>
+      <nav class="hidden md:flex">
+        <a href="#" class="text-white hover:text-gray-200 mx-2">Home</a>
+        <a href="#" class="text-white hover:text-gray-200 mx-2">Sobre</a>
+        <a href="#" class="text-white hover:text-gray-200 mx-2">Contato</a>
+      </nav>
+      <button id="menu-toggle" class="md:hidden p-2 text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <aside id="sidebar" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 hidden md:hidden">
+    <div class="flex flex-col bg-white w-64 h-full">
+      <button id="close-menu" class="self-end p-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <nav class="flex flex-col p-4">
+        <a href="#" class="py-2 hover:bg-gray-200">Home</a>
+        <a href="#" class="py-2 hover:bg-gray-200">Sobre</a>
+        <a href="#" class="py-2 hover:bg-gray-200">Contato</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Overlay -->
+  <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 hidden"></div>
+
+  <!-- Search Bar -->
+  <div class="max-w-7xl mx-auto p-4">
+    <input type="text" placeholder="Pesquisar..." class="border border-gray-300 rounded w-full p-2" />
+  </div>
+
+  <!-- Blog Posts -->
+  <main class="max-w-7xl mx-auto p-4">
+    <h2 class="text-2xl font-semibold mb-4">Publicações Recentes</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Exemplo de Publicação -->
+      <% if (posts.length) { %>
+        <% posts.forEach(post => { %>
+          <article class="bg-white rounded shadow p-4">
+            <h3 class="text-xl font-bold mb-2"><%= post.title %></h3>
+            <p class="text-gray-700 mb-2"><%= post.text.substring(0, 200) + '...' %></p>
+            <a href="post/<%= post.id %>" class="text-purple-600 hover:text-purple-800">Leia mais</a>
+          </article>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td class="border-b py-2 px-4" colspan="3">Nenhuma publicação adicionada até o momento</td>
+        </tr>
+      <% } %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-center gap-4">
+      <button class="bg-purple-600 text-white px-4 py-2 rounded-l">Anterior</button>
+      <button class="bg-purple-600 text-white px-4 py-2 rounded-r">Próximo</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-10">
+    <div class="max-w-7xl mx-auto p-6 flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-4 md:mb-0">
+        <h5 class="text-lg font-bold">ThauanyHeloisa</h5>
+        <p>&copy; 2024 Todos os direitos reservados.</p>
+        <p>Desenvolvido com carinho.</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:space-x-6">
+        <a href="#" class="hover:text-gray-300">Sobre nós</a>
+        <a href="#" class="hover:text-gray-300">Contato</a>
+        <a href="#" class="hover:text-gray-300">Política de Privacidade</a>
+        <a href="#" class="hover:text-gray-300">Termos de Serviço</a>
+      </div>
+
+      <div class="mt-4 md:mt-0">
+        <h5 class="text-lg font-bold">Siga-nos</h5>
+        <div class="flex space-x-4">
+          <a href="#" class="hover:text-gray-300">Facebook</a>
+          <a href="#" class="hover:text-gray-300">Instagram</a>
+          <a href="#" class="hover:text-gray-300">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const closeMenu = document.getElementById('close-menu');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      menuOverlay.classList.toggle('hidden');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      sidebar.classList.add('hidden');
+      menuOverlay.classList.add('hidden');
+    });
+
+    menuOverlay.addEventListener('click', () => {
+      sidebar.classList.add('hidden');
+      menuOverlay.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>

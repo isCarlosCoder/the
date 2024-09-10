@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ThauanyHeloisa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body class="bg-gray-100">
+
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside id='menu' class="absolute left-[-300px] duration-500 transition-all top-0 w-64 bg-white h-screen shadow-md">
+      <div class="p-5 border-b">
+        <h1 class="text-lg font-semibold">Admin Dashboard</h1>
+      </div>
+      <nav class="mt-5">
+        <ul>
+          <li>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Gerenciar Publicações</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Gerenciar Tags</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Gerenciar Categorias</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Estatísticas</a>
+          </li>
+          <li>
+            <form action="/admin/logout" method="POST" class="mt-5">
+              <button type="submit" class="w-full text-left py-2 px-4 text-gray-700 hover:bg-gray-200">Sair</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold mb-4">Estatísticas</h2>
+        <button id="btn-menu" class="pointer hover:bg-gray-200">
+          <box-icon name='menu'></box-icon>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="bg-white p-4 rounded shadow">
+          <h3 class="text-lg font-medium">Total de Publicações</h3>
+          <p class="text-2xl"><%= postsCount %></p>
+        </div>
+        <div class="bg-white p-4 rounded shadow">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-medium">Total de Categorias</h3>
+            <button onclick="toggleCategoryBox()">
+              <box-icon name='plus'></box-icon>
+            </button>
+          </div>
+          <p class="text-2xl"><%= categoriesCount %></p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mt-2">
+        <h2 class="text-2xl font-semibold mt-6">Últimas Publicações</h2>
+        <a href='/admin/new?type=post' class="p-2 rounded-lg bg-black text-white">nova publicação</a>
+      </div>
+      <div class="bg-white p-4 rounded shadow mt-4">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="border-b py-2 px-4 text-left">Título</th>
+              <th class="border-b py-2 px-4 text-left">Data</th>
+              <th class="border-b py-2 px-4 text-left">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (posts.length) { %>
+              <% posts.forEach(post => { %>
+                <tr>
+                  <td class="border-b py-2 px-4"><%= post.title %></td>
+                  <td class="border-b py-2 px-4"><%= formatDate(post.createdAt) %></td>
+                  <td class="border-b py-2 px-4">
+                    <a href="#" class="text-blue-500">Editar</a>
+                    <a href="/admin/delete/<%= post.id %>" class="text-red-500">Excluir</a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td class="border-b py-2 px-4" colspan="3">Nenhuma publicação adicionada até o momento</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="box-category" class="hidden p-4 w-[450px] space-y-2 rounded-xl absolute border bg-white border-black top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-semibold">Adicionar nova categoria</h3>
+      <button onclick="toggleCategoryBox()" class="p-2 rounded hover:bg-gray-200 flex items-center justify-center">
+        <box-icon name='x'></box-icon>
+      </button>
+    </div>
+    <form method="post" action="/admin/new/category" class="space-y-5 flex flex-col">
+      <input type="text" class="border border-gray-300 p-2 w-full rounded" value="category" name="type" disabled>
+      <input class="border border-gray-300 p-2 w-full rounded" type="text" id="name" placeholder="Nome da categoria" name="name" required>
+      <button class="bg-green-500 text-white mt-2 p-2 rounded-lg pointer">Salvar</button>
+    </form>
+  </div>
+
+  <script>
+    const buttonMenu = document.querySelector('#btn-menu')
+    const menu = document.querySelector('#menu')
+    const boxCategory = document.querySelector('#box-category')
+
+    buttonMenu.addEventListener('click', () => {
+      menu.classList.toggle('left-[-300px]')
+      menu.classList.toggle('left-0')
+    })
+
+    function toggleCategoryBox() {
+      boxCategory.classList.toggle('block')
+      boxCategory.classList.toggle('hidden')
+    }
+  </script>
+</body>
+</html>
