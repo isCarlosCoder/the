@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node .",
     "prisma:migrate": "npx prisma migrate deploy",
-    "start": "npm run prisma:migrate && npm run dev"
+    "start": "npm run prisma:migrate && npm run dev",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
