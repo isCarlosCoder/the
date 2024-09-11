@@ -218,8 +218,6 @@ app.get('/admin/delete/category/:categoryId', async (req, res) => {
   res.redirect('/admin/categories')
 })
 
-// 
-
 app.post('/admin/new/category', async (req, res) => {
   const { name } = req.body
 

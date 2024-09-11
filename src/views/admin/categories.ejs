@@ -58,7 +58,7 @@
                   <td class="border-b py-2 px-4"><%= formatDate(category.createdAt) %></td>
                   <td class="border-b py-2 px-4">
                     <a href="#" class="text-blue-500">Editar</a>
-                    <a href="/admin/delete/category/<%= category.id %>" class="text-red-500">Excluir</a>
+                    <a href="#" class="text-red-500" onclick="openConfirmationBox('/admin/delete/category/<%= category.id %>')">Excluir</a>
                   </td>
                 </tr>
               <% }) %>
@@ -73,15 +73,47 @@
 
     </main>
   </div>
-  
+
+  <!-- Pop-up de confirmação de exclusão -->
+  <div id="box-confirmation" class="hidden p-4 w-[450px] space-y-2 rounded-xl absolute border bg-white border-black top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-semibold">Confirmar exclusão</h3>
+      <button onclick="toggleConfirmationBox()" class="p-2 rounded hover:bg-gray-200 flex items-center justify-center">
+        <box-icon name='x'></box-icon>
+      </button>
+    </div>
+    <p>Tem certeza que deseja excluir esta categoria?</p>
+    <div class="flex justify-end space-x-2">
+      <button onclick="toggleConfirmationBox()" class="bg-gray-300 text-black p-2 rounded-lg">Cancelar</button>
+      <button id="confirm-delete" class="bg-red-500 text-white p-2 rounded-lg">Excluir</button>
+    </div>
+  </div>
+
   <script>
-    const buttonMenu = document.querySelector('#btn-menu')
-    const menu = document.querySelector('#menu')
+    const buttonMenu = document.querySelector('#btn-menu');
+    const menu = document.querySelector('#menu');
+    const confirmationBox = document.querySelector('#box-confirmation');
+    let deleteUrl = '';
 
     buttonMenu.addEventListener('click', () => {
-      menu.classList.toggle('left-[-300px]')
-      menu.classList.toggle('left-0')
-    })
+      menu.classList.toggle('left-[-300px]');
+      menu.classList.toggle('left-0');
+    });
+
+    function toggleConfirmationBox() {
+      confirmationBox.classList.toggle('block');
+      confirmationBox.classList.toggle('hidden');
+    }
+
+    function openConfirmationBox(url) {
+      deleteUrl = url;
+      toggleConfirmationBox();
+    }
+
+    const confirmDeleteButton = document.querySelector('#confirm-delete');
+    confirmDeleteButton.addEventListener('click', () => {
+      window.location.href = deleteUrl;
+    });
   </script>
 </body>
 </html>
