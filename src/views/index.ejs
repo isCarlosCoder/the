@@ -11,7 +11,7 @@
     }
   </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 min-h-screen flex flex-col">
 
   <!-- Header -->
   <header class="bg-purple-600 text-white">
@@ -50,12 +50,12 @@
   <div id="menu-overlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 hidden"></div>
 
   <!-- Search Bar -->
-  <div class="max-w-7xl mx-auto p-4">
+  <div class="w-[450px] mx-auto p-4">
     <input type="text" placeholder="Pesquisar..." class="border border-gray-300 rounded w-full p-2" />
   </div>
 
   <!-- Blog Posts -->
-  <main class="max-w-7xl mx-auto p-4">
+  <main class="max-w-7xl mx-auto p-4 flex-1">
     <h2 class="text-2xl font-semibold mb-4">Publicações Recentes</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

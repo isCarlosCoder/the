@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ThauanyHeloisa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body class="bg-gray-100">
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside id='menu' class="absolute left-[-300px] duration-500 transition-all top-0 w-64 bg-white h-screen shadow-md">
+      <div class="p-5 border-b">
+        <h1 class="text-lg font-semibold">Admin Dashboard</h1>
+      </div>
+      <nav class="mt-5">
+        <ul>
+          <li>
+            <a href="/admin/dashboard" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Gerenciar Publicações</a>
+          </li>
+          <li>
+            <a href="/admin/categories" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Gerenciar Categorias</a>
+          </li>
+          <li>
+            <form action="/admin/logout" method="POST" class="mt-5">
+              <button type="submit" class="w-full text-left py-2 px-4 text-gray-700 hover:bg-gray-200">Sair</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold mb-4">Categorias</h2>
+        <button id="btn-menu" class="pointer hover:bg-gray-200">
+          <box-icon name='menu'></box-icon>
+        </button>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow mt-4">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th class="border-b py-2 px-4 text-left">Nome</th>
+              <th class="border-b py-2 px-4 text-left">Criado em</th>
+              <th class="border-b py-2 px-4 text-left">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (categories.length) { %>
+              <% categories.forEach(category => { %>
+                <tr>
+                  <td class="border-b py-2 px-4"><%= category.name %></td>
+                  <td class="border-b py-2 px-4"><%= formatDate(category.createdAt) %></td>
+                  <td class="border-b py-2 px-4">
+                    <a href="#" class="text-blue-500">Editar</a>
+                    <a href="/admin/delete/category/<%= category.id %>" class="text-red-500">Excluir</a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td class="border-b py-2 px-4" colspan="3">Nenhuma publicação adicionada até o momento</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  
+  <script>
+    const buttonMenu = document.querySelector('#btn-menu')
+    const menu = document.querySelector('#menu')
+
+    buttonMenu.addEventListener('click', () => {
+      menu.classList.toggle('left-[-300px]')
+      menu.classList.toggle('left-0')
+    })
+  </script>
+</body>
+</html>

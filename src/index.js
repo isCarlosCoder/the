@@ -15,7 +15,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Middleware para parsear o corpo das requisições
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Configuração da sessão
 app.use(session({
@@ -195,6 +196,30 @@ app.get('/admin/delete/:postid', async (req, res) => {
   res.redirect('/admin/dashboard')
 })
 
+app.get('/admin/delete/category/:categoryId', async (req, res) => {
+  const { categoryId } = req.params
+
+  const exists = await prisma.category.findFirst({
+    where: {
+      id: categoryId
+    }
+  })
+
+  if (!exists) {
+    return res.redirect('/admin/categories')
+  }
+
+  await prisma.category.delete({
+    where: {
+      id: categoryId
+    }
+  })
+
+  res.redirect('/admin/categories')
+})
+
+// 
+
 app.post('/admin/new/category', async (req, res) => {
   const { name } = req.body
 
@@ -219,6 +244,15 @@ app.post('/admin/new/category', async (req, res) => {
   })
 
   res.redirect('/admin/dashboard')
+})
+
+app.get('/admin/categories', async (req, res) => {
+  const categories = await prisma.category.findMany()
+
+  res.render('admin/categories', {
+    categories,
+    formatDate
+  })
 })
 
 // Rota para deslogar
